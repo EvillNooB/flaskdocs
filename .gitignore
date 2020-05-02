@@ -1,8 +1,0 @@
-# ignore vscode folder
-.vscode
-
-# ignore cache
-__pycache__
-
-# ignore current database
-site.db
