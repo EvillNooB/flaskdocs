@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 align=center> Главное меню</h1>
+<p></p>
+  <div class="container fill">
+      <div class="row">
+          <a class="col-xl-12 button button2" href="{{ url_for('show_staff') }}"> Отобразить список работников</a> 
+      </div>
+      <div class="row">
+        <a class="col-xl-12 button button2" href="{{ url_for('show_docs') }}"> Отобразить список документов</a> 
+    </div>
+    <div class="row">
+      <a class="col-xl-12 button button2" href="{{ url_for('notification_settings') }}"> Настройка уведомлении</a> 
+  </div>
+  <div class="row">
+    <a class="col-xl-12 button button2" href="{{ url_for('view_groups') }}"> Настройка групп</a> 
+  </div>
+
+  </div>
+  
+  
+{% endblock content %}
+    
