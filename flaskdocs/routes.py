@@ -322,7 +322,7 @@ def delete_document(doc_id):
     else:
         abort(404)
     return redirect(request.referrer)
-  
+    
 @app.route("/delete/group/<int:group_id>", methods=['POST'])
 @login_required
 def delete_group(group_id):
@@ -339,4 +339,4 @@ def delete_group(group_id):
     return redirect(request.referrer)
 
 #------------------------- DELETE DATA  -----------------------------------------
-
+# checkout_branch
