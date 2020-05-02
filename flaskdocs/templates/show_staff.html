@@ -1,0 +1,94 @@
+{% extends "table_layout.html" %}
+{% block content %}
+
+<h1 class="ml-4">  Количество {{dbase.total}}</h1> 
+
+
+    <div class="row">
+      <div class="col-sm-auto">
+       
+      </div>
+
+      <div class="col-sm-auto">
+    
+        <a class="btn btn-secondary btn-sm mt-0 mb-5" href="{{ url_for('add_staffmember') }}"> Добавить работника </a>
+
+
+      </div>
+
+    </div>
+
+    <div class="test123">
+        
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                
+                <th scope="col">Имя</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">Почта</th>
+                <th scope="col">Телефон</th>
+                <th scope="col">Группа</th>
+                <th scope="col">Действия</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            
+             {% for item in dbase.items %}
+            <tr>
+               
+                <td>{{item.first_name}}</td>
+                <td>{{item.second_name}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.phone.e164}}</td>
+                <th >{{item.group.name}}</th>
+                <td> <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('view_staff', member=item.id) }}">Посмотреть</a>
+                <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('edit_staff', member=item.id) }}">Редактировать</a>
+                <a class="btn btn-outline-secondary btn-sm" href=" {{ url_for('add_doc',member=item.id) }}">Добавить документ</a>
+                </td>
+               
+              </tr>
+
+            {% endfor %}
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th scope="col">Имя</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">Почта</th>
+                <th scope="col">Телефон</th>
+                <th scope="col">Группа</th>
+                <th scope="col">Действия</th>
+               
+            </tr>
+        </tfoot>
+    </table>
+   
+    {% for page_num in dbase.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+      {% if page_num==dbase.page %}
+      <a class="btn btn-info mb-4" href="{{ url_for('show_staff', page= page_num, per_page=per_page) }}">{{page_num}}</a>
+      {% else %}
+      <a class="btn btn-outline-info mb-4" href="{{ url_for('show_staff', page= page_num, per_page=per_page) }}"> {{page_num}}</a>
+      {% endif %}
+    {% else %}
+    ...
+    {% endif %}
+    {% endfor %}
+</div>
+    <script>
+
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "paging":   false,
+                "bInfo" : false,
+                "order": []
+            });
+        } );
+
+
+
+        </script>
+{% endblock content %}
