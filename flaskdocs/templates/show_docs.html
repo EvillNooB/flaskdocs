@@ -10,7 +10,6 @@
     <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
-                <th scope="col">#id</th>
                 <th scope="col">Название документа</th>
                 <th scope="col">Истекает (текст)</th>
 
@@ -24,7 +23,7 @@
             
              {% for item in dbase.items %}
             <tr>
-                <th scope="row">{{item.id}}</th>
+                
                 <td>{{item.name}}</td>
                 <td>{{item.expiration_date.humanize(locale='ru')}}</td>
 
@@ -37,12 +36,24 @@
 
 
 
-                <td> <a href="{{ url_for('staff.lookup_staff', member=item.owner.id) }}"> {{item.owner.first_name}} {{item.owner.second_name}}</a></td>
+                <td> <a  href="{{ url_for('staff.lookup_staff', member=item.owner.id) }}"> {{item.owner.first_name}} {{item.owner.second_name}}</a></td>
 
 
-                <td> 
-                  <button class="btn btn-outline-danger btn-sm " data-toggle="modal" data-target="#deleteModal{{item.id}}"> x </button>
+                <td > 
+                  <button class="btn btn-outline-danger btn-sm "  data-toggle="modal" data-target="#deleteModal{{item.id}}"> x </button>
                     
+                  {% if item.first %}
+                  !
+                  {% endif %}
+                  {% if item.second %}
+                  !
+                  {% endif %} 
+                  {% if item.third %}
+                  !
+                  {% endif %}
+
+
+
                   <div class="modal fade" id="deleteModal{{item.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -64,13 +75,14 @@
                 </td>
 
 
+
               </tr>
             {% endfor %}
 
         </tbody>
         <tfoot>
             <tr>
-               <th scope="col">#id</th>
+               
             <th scope="col">Название документа</th>
             <th scope="col">Истекает (текст)</th>
 
@@ -96,11 +108,14 @@
     {% endfor %}
   </div>
     <script>
+
         $(document).ready(function() {
             $('#example').DataTable({
+
                 "paging":   false,
                 "bInfo" : false,
                 "order": []
+
             });
         } );
 

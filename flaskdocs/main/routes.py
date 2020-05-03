@@ -44,7 +44,7 @@ def notification_settings():
     form.third.data = db_settings.third
     return render_template("notification_settings.html", title="Уведомления", form=form)
 
-def checkDocuments(app:Flask):
+def checkDocuments(app: Flask):
     with app.app_context():
         print("Checking all documents")
         now = arrow.utcnow()
@@ -56,7 +56,6 @@ def checkDocuments(app:Flask):
         for document in documents:
             daysleft = (document.expiration_date - now).days
             if daysleft < first and not document.first:
-                print("Sending emails")
                 staff = document.owner
                 group = staff.group
                 send_email_to_staff(staff=staff, document=document, daysleft=daysleft)
@@ -64,7 +63,6 @@ def checkDocuments(app:Flask):
                 document.first = True
                 db.session.commit()
             elif daysleft < second and not document.second:
-                print("Sending emails")
                 staff = document.owner
                 group = staff.group
                 send_email_to_staff(staff=staff, document=document, daysleft=daysleft)
@@ -72,7 +70,6 @@ def checkDocuments(app:Flask):
                 document.second = True
                 db.session.commit()
             elif daysleft < third and not document.third:
-                print("Sending emails")
                 staff = document.owner
                 group = staff.group
                 send_email_to_staff(staff=staff, document=document, daysleft=daysleft)
