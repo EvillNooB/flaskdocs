@@ -37,7 +37,7 @@
 
 
 
-                <td> <a href="{{ url_for('view_staff', member=item.owner.id) }}"> {{item.owner.first_name}} {{item.owner.second_name}}</a></td>
+                <td> <a href="{{ url_for('staff.lookup_staff', member=item.owner.id) }}"> {{item.owner.first_name}} {{item.owner.second_name}}</a></td>
 
 
                 <td> 
@@ -54,7 +54,7 @@
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                            <form action="{{ url_for('delete_document', doc_id=item.id) }}" method="POST">
+                            <form action="{{ url_for('staff.delete_document', doc_id=item.id) }}" method="POST">
                                 <input class="btn btn-danger" type="submit" value="Удалить">
                             </form>
                           </div>
@@ -86,9 +86,9 @@
     {% for page_num in dbase.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
     {% if page_num %}
       {% if page_num==dbase.page %}
-      <a class="btn btn-info mb-4" href="{{ url_for('show_docs', page= page_num, per_page=per_page) }}">{{page_num}}</a>
+      <a class="btn btn-info mb-4" href="{{ url_for('staff.show_docs', page= page_num, per_page=per_page) }}">{{page_num}}</a>
       {% else %}
-      <a class="btn btn-outline-info mb-4" href="{{ url_for('show_docs', page= page_num, per_page=per_page) }}"> {{page_num}}</a>
+      <a class="btn btn-outline-info mb-4" href="{{ url_for('staff.show_docs', page= page_num, per_page=per_page) }}"> {{page_num}}</a>
       {% endif %}
     {% else %}
     ...

@@ -10,7 +10,7 @@
 
     <div class="col-sm-auto">
   
-      <a class="btn btn-secondary btn-sm mt-0 mb-5" href="{{ url_for('add_group') }}"> Добавить группу </a>
+      <a class="btn btn-secondary btn-sm mt-0 mb-5" href="{{ url_for('groups.add_group') }}"> Добавить группу </a>
     </div>
 
   </div>
@@ -29,7 +29,7 @@
              {% for item in dbase %}
             <tr>
               <td>
-                <a href="{{ url_for('specific_group', group=item.id) }}"> {{item.name}}</a>
+                <a href="{{ url_for('groups.lookup_group', group=item.id) }}"> {{item.name}}</a>
               </td>
                 <td> 
                   <button class="btn btn-outline-danger btn-sm " data-toggle="modal" data-target="#deleteModal{{item.id}}"> x </button>
@@ -45,7 +45,7 @@
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                            <form action="{{ url_for('delete_group', group_id=item.id) }}" method="POST">
+                            <form action="{{ url_for('groups.delete_group', group_id=item.id) }}" method="POST">
                                 <input class="btn btn-danger" type="submit" value="Удалить">
                             </form>
                           </div>

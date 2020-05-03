@@ -11,7 +11,7 @@
 
       <div class="col-sm-auto">
     
-        <a class="btn btn-secondary btn-sm mt-0 mb-5" href="{{ url_for('add_staffmember') }}"> Добавить работника </a>
+        <a class="btn btn-secondary btn-sm mt-0 mb-5" href="{{ url_for('staff.add_staffmember') }}"> Добавить работника </a>
 
 
       </div>
@@ -43,9 +43,9 @@
                 <td>{{item.email}}</td>
                 <td>{{item.phone.e164}}</td>
                 <th >{{item.group.name}}</th>
-                <td> <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('view_staff', member=item.id) }}">Посмотреть</a>
-                <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('edit_staff', member=item.id) }}">Редактировать</a>
-                <a class="btn btn-outline-secondary btn-sm" href=" {{ url_for('add_doc',member=item.id) }}">Добавить документ</a>
+                <td> <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('staff.lookup_staff', member=item.id) }}">Посмотреть</a>
+                <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('staff.edit_staff', member=item.id) }}">Редактировать</a>
+                <a class="btn btn-outline-secondary btn-sm" href=" {{ url_for('staff.add_doc',member=item.id) }}">Добавить документ</a>
                 </td>
                
               </tr>
@@ -69,9 +69,9 @@
     {% for page_num in dbase.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
     {% if page_num %}
       {% if page_num==dbase.page %}
-      <a class="btn btn-info mb-4" href="{{ url_for('show_staff', page= page_num, per_page=per_page) }}">{{page_num}}</a>
+      <a class="btn btn-info mb-4" href="{{ url_for('staff.show_staff', page= page_num, per_page=per_page) }}">{{page_num}}</a>
       {% else %}
-      <a class="btn btn-outline-info mb-4" href="{{ url_for('show_staff', page= page_num, per_page=per_page) }}"> {{page_num}}</a>
+      <a class="btn btn-outline-info mb-4" href="{{ url_for('staff.show_staff', page= page_num, per_page=per_page) }}"> {{page_num}}</a>
       {% endif %}
     {% else %}
     ...

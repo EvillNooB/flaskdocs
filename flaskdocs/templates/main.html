@@ -5,16 +5,16 @@
 <p></p>
   <div class="container fill">
       <div class="row">
-          <a class="col-xl-12 button button2" href="{{ url_for('show_staff') }}"> Отобразить список работников</a> 
+          <a class="col-xl-12 button button2" href="{{ url_for('staff.show_staff') }}"> Отобразить список работников</a> 
       </div>
       <div class="row">
-        <a class="col-xl-12 button button2" href="{{ url_for('show_docs') }}"> Отобразить список документов</a> 
+        <a class="col-xl-12 button button2" href="{{ url_for('staff.show_docs') }}"> Отобразить список документов</a> 
     </div>
     <div class="row">
-      <a class="col-xl-12 button button2" href="{{ url_for('notification_settings') }}"> Настройка уведомлении</a> 
+      <a class="col-xl-12 button button2" href="{{ url_for('main.notification_settings') }}"> Настройка уведомлении</a> 
   </div>
   <div class="row">
-    <a class="col-xl-12 button button2" href="{{ url_for('view_groups') }}"> Настройка групп</a> 
+    <a class="col-xl-12 button button2" href="{{ url_for('groups.view_groups') }}"> Настройка групп</a> 
   </div>
 
   </div>

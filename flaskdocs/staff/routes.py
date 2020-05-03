@@ -19,7 +19,7 @@ def add_staffmember():
         db.session.add(staff_member)
         db.session.commit()
         flash(f"Успешно", "success")
-        return redirect(url_for("view_staff", member=staff_member.id))
+        return redirect(url_for("staff.lookup_staff", member=staff_member.id))
     return render_template("add_staff.html", form=form)
 
 @staff.route("/database/docs/<int:member>/add", methods=['GET', 'POST'])
@@ -27,11 +27,11 @@ def add_staffmember():
 def add_doc(member):
     form = AddDocsForm()
     if form.validate_on_submit():
-        new_doc = Documents(name=form.name.data, expiration_date=arrow.get(form.date.data,'DD.MM.YYYY'), owner_id=member)
+        new_doc = Documents(name=form.name.data, expiration_date=arrow.get(form.date.data, 'DD.MM.YYYY'), owner_id=member)
         db.session.add(new_doc)
         db.session.commit()
         flash(f"Документ успешно добавлен", "success")
-        return redirect(url_for("view_staff", member=member))
+        return redirect(url_for("staff.lookup_staff", member=member))
     staff_member = Staff.query.get(member)
     if not staff_member:
         abort(404)
@@ -48,12 +48,12 @@ def delete_staff(staff_id):
         abort(404)
     elif staff_member.documents:
         flash(f"Для начала удалите документы", "danger")
-        return redirect(url_for("view_staff", member=staff_member.id))
+        return redirect(url_for("staff.lookup_staff", member=staff_member.id))
     else:
         db.session.delete(staff_member)
         db.session.commit()
         flash(f"Успешно удалено", "info")
-        return redirect(url_for('show_staff'))
+        return redirect(url_for('staff.show_staff'))
 
 @staff.route("/delete/doc/<int:doc_id>", methods=['POST'])
 @login_required
@@ -103,7 +103,7 @@ def edit_staff(member):
         staff_member.phone = form.phone.data 
         db.session.commit()
         flash("Информация обновлена", "success")
-        return redirect(url_for("view_staff", member=member))
+        return redirect(url_for("staff.lookup_staff", member=member))
     elif request.method == "GET":
         form.group.default = staff_member.group_id
         form.process()
@@ -115,7 +115,7 @@ def edit_staff(member):
 
 @staff.route("/database/staff/<int:member>", methods=['GET'])
 @login_required
-def view_staff(member):
+def lookup_staff(member):
     page = request.args.get("page", 1, type=int)
     per_page = request.args.get("per_page", 5, type=int)
     staff_member = Staff.query.get(member)
@@ -126,7 +126,7 @@ def view_staff(member):
                     .paginate(per_page=per_page, page=page)
     else:
         abort(404)
-    return render_template("specific_docs.html", per_page=per_page, page=page, staff=staff_member, dbase=docs)
+    return render_template("lookup_staff.html", per_page=per_page, page=page, staff=staff_member, dbase=docs)
 
 @staff.route("/database/staff", methods=['GET'])
 @login_required

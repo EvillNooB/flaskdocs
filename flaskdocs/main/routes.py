@@ -10,7 +10,7 @@ main = Blueprint("main", __name__)
 @main.route("/landing", methods=['GET'])
 def landing():
     if current_user.is_authenticated:
-        return redirect(url_for("main"))
+        return redirect(url_for("main.main_menu"))
     return render_template("landing.html", title="Тест")
 
 @main.route("/main", methods=['GET', 'POST'])
@@ -36,7 +36,7 @@ def notification_settings():
         db_settings.third = array[2]
         db.session.commit()
         flash(f"Сохранено", "success")
-        return redirect(url_for("notification_settings"))
+        return redirect(url_for("main.notification_settings"))
     form.first.data = db_settings.first
     form.second.data = db_settings.second
     form.third.data = db_settings.third

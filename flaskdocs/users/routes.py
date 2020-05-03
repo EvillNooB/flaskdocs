@@ -11,7 +11,7 @@ users = Blueprint("users", __name__)
 @users.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for("main"))
+        return redirect(url_for("main.main_menu"))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data, phone=form.phone.data, password=form.password.data)
@@ -24,23 +24,23 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f"Учетная запись создана", "success")
-        return redirect(url_for("login"))
+        return redirect(url_for("users.login"))
     return render_template("register.html", title="Регистрация", sidebar=False, form=form)
 
 @users.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("main"))
+        return redirect(url_for("main.main_menu"))
     form = LoginForm()
     if form.validate_on_submit():
         try:
             input_number = phonenumbers.parse(form.login.data)
             if phonenumbers.is_valid_number(input_number):
                 user = User.query.filter_by(phone=form.login.data).first()
-                if user and user.password==form.password.data:
-                    login_user(user,remember=form.remember.data)
+                if user and user.password == form.password.data:
+                    login_user(user, remember=form.remember.data)
                     next_page = request.args.get('next')
-                    return redirect(next_page) if next_page else redirect(url_for("main"))
+                    return redirect(next_page) if next_page else redirect(url_for("main.main_menu"))
                 else:
                     flash("Неправильный логин или пароль", "danger")
         except:
@@ -48,7 +48,7 @@ def login():
             if user and user.password==form.password.data:
                 login_user(user, remember=form.remember.data)
                 next_page = request.args.get('next')
-                return redirect(next_page) if next_page else redirect(url_for("main"))
+                return redirect(next_page) if next_page else redirect(url_for("main.main_menu"))
             else:
                 flash("Неправильный логин или пароль", "danger")
     return render_template("login.html", title="Войти", form=form)
@@ -57,7 +57,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("landing"))
+    return redirect(url_for("main.landing"))
 
 @users.route('/settings/account', methods=['GET', 'POST'], )
 def account_settings():
@@ -71,7 +71,7 @@ def account_settings():
         current_user.group_id = form.group.data
         db.session.commit()
         flash("Информация обновлена", "success")
-        return redirect(url_for("account_settings"))
+        return redirect(url_for("users.account_settings"))
     elif request.method == "GET":
         form.group.default = current_user.group_id
         form.process()

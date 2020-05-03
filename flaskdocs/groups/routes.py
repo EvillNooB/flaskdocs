@@ -15,7 +15,7 @@ def add_group():
         db.session.add(group)
         db.session.commit()
         flash(f"Успешно", "success")
-        return redirect(url_for("view_groups"))
+        return redirect(url_for("groups.view_groups"))
     return render_template("add_group.html", form=form)
 
 @groups.route("/delete/group/<int:group_id>", methods=['POST'])
@@ -35,11 +35,11 @@ def delete_group(group_id):
 
 @groups.route("/database/groups/<int:group>", methods=['GET'])
 @login_required
-def specific_group(group):
+def lookup_group(group):
     target_group = Groups.query.get(group)
     if not target_group:
         abort(404)
-    return render_template("specific_group.html", group=target_group)
+    return render_template("lookup_group.html", group=target_group)
 
 @groups.route("/database/groups", methods=['POST', 'GET'])
 @login_required
