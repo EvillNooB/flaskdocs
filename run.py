@@ -1,5 +1,6 @@
-from flaskdocs import app
+from flaskdocs import create_app
+
+app = create_app()
 
 if __name__ == '__main__':
-    print("Starting")
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
