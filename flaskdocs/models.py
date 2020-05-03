@@ -41,7 +41,10 @@ class Documents(db.Model):
     name = db.Column(db.Unicode(20), unique=False, nullable=False)
     expiration_date = db.Column(ArrowType(), nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('staff.id'), nullable=False)
-    notifications = db.Column(JSONType)
+
+    first = db.Column(db.Boolean, unique=False, nullable=False, default=False)
+    second = db.Column(db.Boolean, unique=False, nullable=False, default=False)
+    third = db.Column(db.Boolean, unique=False, nullable=False, default=False)
 
     def __repr__(self):
         return f"Документ('{self.name}', Действителен до '{self.expiration_date}')"
