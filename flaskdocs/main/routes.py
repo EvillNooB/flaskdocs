@@ -56,9 +56,9 @@ def checkDocuments(app: Flask):
         if staff.use_email:
             send_email_to_staff(staff=staff, document=document, daysleft=daysleft)
         if staff.use_phone:
-            send_sms_to_staff()
+            send_sms_to_staff(staff=staff, document=document, daysleft=daysleft)
         send_email_to_group(staff=staff, document=document, daysleft=daysleft, group=group)
-    
+        send_sms_to_group(staff=staff, document=document, daysleft=daysleft, group=group)
     with app.app_context():
         print("Checking all documents")
         now = arrow.utcnow()
@@ -84,4 +84,4 @@ def checkDocuments(app: Flask):
     
 @main.record
 def record(state):
-    state.app.scheduler.add_job(checkDocuments, trigger='interval', seconds=30, misfire_grace_time=900, max_instances=1, args=[state.app])
+    state.app.scheduler.add_job(checkDocuments, trigger='interval', minutes=1, misfire_grace_time=900, max_instances=1, args=[state.app])

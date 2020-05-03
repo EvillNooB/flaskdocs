@@ -3,7 +3,7 @@ from datetime import datetime
 from flaskdocs import db, login_manager
 from flask_login import UserMixin
 # import sqlalchemy_utils
-from sqlalchemy_utils import force_auto_coercion, PasswordType, EmailType, PhoneNumberType, ArrowType, JSONType
+from sqlalchemy_utils import force_auto_coercion, PasswordType, EmailType, PhoneNumberType, ArrowType
 import arrow, phonenumbers, passlib
 force_auto_coercion()
 

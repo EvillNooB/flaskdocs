@@ -5,14 +5,15 @@ from flask_sqlalchemy import SQLAlchemy
 from flaskdocs.config import Config
 from flask_mail import Mail
 from apscheduler.schedulers.background import BackgroundScheduler
+from flask_twilio import Twilio
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 mail = Mail()
+twilio = Twilio()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 login_manager.login_message = "Войдите для доступа к этой странице"
-
 
 
 
@@ -23,6 +24,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
+    twilio.init_app(app)
 
     app.scheduler = BackgroundScheduler(daemon=True)
 
