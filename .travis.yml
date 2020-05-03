@@ -24,7 +24,7 @@ install:
          - pip3 install -r requirements.txt 
          - pip3 install --upgrade pip
 
-script: python3 run.py || python run.py
+# script: python3 run.py || python run.py
 
 notifications:
     email: false
