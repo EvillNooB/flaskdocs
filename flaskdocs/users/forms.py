@@ -16,6 +16,8 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Пароль', validators=[DataRequired()])
     confirm_password = PasswordField('Повторите пароль',
                                      validators=[DataRequired(), EqualTo('password')])
+    use_email = BooleanField('Email')
+    use_phone = BooleanField('SMS')
     submit = SubmitField('Создать аккаунт')
 
     def validate_username(self, username):
@@ -43,7 +45,7 @@ class LoginForm(FlaskForm):
     login = StringField('Email или номер телефона указанный при регистрации',
                         validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
-    remember = BooleanField('Запомнить ')
+    remember = BooleanField('Запомнить?')
     submit = SubmitField('Войти')
 
 class UpdateAccountForm(FlaskForm):
@@ -53,8 +55,9 @@ class UpdateAccountForm(FlaskForm):
                         validators=[DataRequired(), Email()])
     phone = StringField('Номер телефона',
                            validators=[DataRequired()])
-
     group = SelectField('Группа ', validators=[DataRequired()], coerce=int)
+    use_email = BooleanField('Email')
+    use_phone = BooleanField('SMS')
     submit = SubmitField('Сохранить')
 
     def __init__(self, *args, **kwargs):

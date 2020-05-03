@@ -4,7 +4,12 @@ from flask_login import current_user, login_required
 from flaskdocs import  db
 from flaskdocs.main.forms import NotificationSettingsForm
 from flaskdocs.models import User, Documents, Settings
-from flaskdocs.main.utils import  send_email_to_group, send_email_to_staff
+from flaskdocs.main.utils import  (
+                                  send_email_to_group,
+                                  send_email_to_staff,
+                                  send_sms_to_staff,
+                                  send_sms_to_group,
+                                  )
 
 main = Blueprint("main", __name__)
 
@@ -45,6 +50,15 @@ def notification_settings():
     return render_template("notification_settings.html", title="Уведомления", form=form)
 
 def checkDocuments(app: Flask):
+    def commence_spam():
+        staff = document.owner
+        group = staff.group
+        if staff.use_email:
+            send_email_to_staff(staff=staff, document=document, daysleft=daysleft)
+        if staff.use_phone:
+            send_sms_to_staff()
+        send_email_to_group(staff=staff, document=document, daysleft=daysleft, group=group)
+    
     with app.app_context():
         print("Checking all documents")
         now = arrow.utcnow()
@@ -56,27 +70,18 @@ def checkDocuments(app: Flask):
         for document in documents:
             daysleft = (document.expiration_date - now).days
             if daysleft < first and not document.first:
-                staff = document.owner
-                group = staff.group
-                send_email_to_staff(staff=staff, document=document, daysleft=daysleft)
-                send_email_to_group(staff=staff, document=document, daysleft=daysleft, group=group)
+                commence_spam()
                 document.first = True
                 db.session.commit()
             elif daysleft < second and not document.second:
-                staff = document.owner
-                group = staff.group
-                send_email_to_staff(staff=staff, document=document, daysleft=daysleft)
-                send_email_to_group(staff=staff, document=document, daysleft=daysleft, group=group)
+                commence_spam()
                 document.second = True
                 db.session.commit()
             elif daysleft < third and not document.third:
-                staff = document.owner
-                group = staff.group
-                send_email_to_staff(staff=staff, document=document, daysleft=daysleft)
-                send_email_to_group(staff=staff, document=document, daysleft=daysleft, group=group)
+                commence_spam()
                 document.third = True
                 db.session.commit()
-       
+    
 @main.record
 def record(state):
     state.app.scheduler.add_job(checkDocuments, trigger='interval', seconds=30, misfire_grace_time=900, max_instances=1, args=[state.app])

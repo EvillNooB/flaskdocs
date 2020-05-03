@@ -14,17 +14,31 @@ def register():
         return redirect(url_for("main.main_menu"))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, phone=form.phone.data, password=form.password.data)
-
+        if not form.use_email.data and not form.use_phone.data:
+            flash(f"Выберите как минимум 1 способ доставки уведомлении", "danger")
+            return redirect(request.referrer)
+        user = User(username=form.username.data,
+                    email=form.email.data,
+                    phone=form.phone.data, 
+                    password=form.password.data,
+                    use_phone=form.use_phone.data,
+                    use_email=form.use_email.data
+                    )
         default_group = Groups.query.first()
-        if default_group:
-            user.group_id = default_group.id
-            flash(f"Assigned to a default group - {default_group.name}", "info")
+        if not default_group:
+            group = Groups(name="Workgroup 1")
+            db.session.add(group)
+            db.session.commit()
+            default_group = Groups.query.first()
+        user.group_id = default_group.id
+        flash(f"Assigned to a default group - {default_group.name}", "info")
 
         db.session.add(user)
         db.session.commit()
         flash(f"Учетная запись создана", "success")
         return redirect(url_for("users.login"))
+    form.use_email.data = True
+    form.use_phone.data = False
     return render_template("register.html", title="Регистрация", sidebar=False, form=form)
 
 @users.route("/login", methods=['GET', 'POST'])
@@ -63,12 +77,17 @@ def logout():
 def account_settings():
     form = UpdateAccountForm()
     if form.validate_on_submit():
+        if not form.use_email.data and not form.use_phone.data:
+            flash(f"Выберите как минимум 1 способ доставки уведомлении", "danger")
+            return redirect(request.referrer)
         # current_user.username = form.username.data
         # current_user.email = form.email.data
         # db.session.commit()
         # flash("Account info updated", "success")
         # return redirect(url_for("users.account"))
         current_user.group_id = form.group.data
+        current_user.use_email = form.use_email.data    
+        current_user.use_phone = form.use_phone.data
         db.session.commit()
         flash("Информация обновлена", "success")
         return redirect(url_for("users.account_settings"))
@@ -78,4 +97,7 @@ def account_settings():
         form.username.data = current_user.username
         form.email.data = current_user.email
         form.phone.data = current_user.phone.e164
+        form.use_email.data = current_user.use_email
+        form.use_phone.data = current_user.use_phone
     return render_template("account_settings.html", title="Информация об аккаунте", form=form, readonly=True)
+

@@ -34,7 +34,7 @@ def create_app(config_class=Config):
     app.register_blueprint(staff)
     app.register_blueprint(main)
     app.register_blueprint(groups)
-    #app.scheduler.start()
+    app.scheduler.start()
 
 
     

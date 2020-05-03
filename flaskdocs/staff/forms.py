@@ -1,7 +1,7 @@
 import phonenumbers
 import arrow
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, ValidationError
 from flaskdocs.models import Groups, Staff
 
@@ -16,6 +16,8 @@ class AddStaffForm(FlaskForm):
     phone = StringField('Номер телефона',
                            validators=[DataRequired()])
     group = SelectField('Группа ', validators=[DataRequired()], coerce=int)
+    use_email = BooleanField('Email')
+    use_phone = BooleanField('SMS')
     submit = SubmitField('Сохранить')
 
     def __init__(self, *args, **kwargs):
@@ -62,6 +64,8 @@ class EditStaffForm(FlaskForm):
     phone = StringField('Номер телефона',
                            validators=[DataRequired()])
     group = SelectField('Группа ', validators=[DataRequired()], coerce=int)
+    use_email = BooleanField('Email')
+    use_phone = BooleanField('SMS')
     submit = SubmitField('Сохранить')
 
     def __init__(self, *args, **kwargs):

@@ -20,6 +20,8 @@ class User(db.Model, UserMixin):
     phone = db.Column(PhoneNumberType(), unique=True, nullable=False)
     password = db.Column(PasswordType(schemes=['pbkdf2_sha512']), unique=False, nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=True)
+    use_email = db.Column(db.Boolean, unique=False, nullable=False, default=True)
+    use_phone = db.Column(db.Boolean, unique=False, nullable=False, default=False)
 
     def __repr__(self):
         return f" Пользователь ('{self.username}', '{self.email}','{self.phone.international}')"
@@ -32,6 +34,8 @@ class Staff(db.Model):
     phone = db.Column(PhoneNumberType(), unique=True, nullable=False)
     documents = db.relationship('Documents', backref='owner', lazy=True)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=True)
+    use_email = db.Column(db.Boolean, unique=False, nullable=False, default=True)
+    use_phone = db.Column(db.Boolean, unique=False, nullable=False, default=False)
 
     def __repr__(self):
         return f"Работник('{self.first_name}', '{self.second_name}','{self.phone.international}')"

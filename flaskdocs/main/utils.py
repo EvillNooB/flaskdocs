@@ -11,10 +11,12 @@ def send_email_to_staff(staff, document, daysleft):
 '''
     mail.send(msg)
 
+
 def send_email_to_group(group, daysleft, document, staff):
     receivers = []
     for user in group.user_count:
-        receivers.append(user.email)
+        if user.use_email:
+            receivers.append(user.email)
     msg = Message(f'Уведомление о документе - {document.name}', sender="kahrali.hvss@sas.ke", recipients=receivers)
     msg.body = f'''Документ '{document.name}'' который принадлежит работнику - {staff.first_name} {staff.second_name} 
     Истекает {document.expiration_date.format("DD.MM.YYYY")}
@@ -25,4 +27,11 @@ def send_email_to_group(group, daysleft, document, staff):
 Email {staff.email}
 
 '''
-    mail.send(msg)
+    if receivers:
+        mail.send(msg)
+
+def send_sms_to_staff():
+    pass
+
+def send_sms_to_group():
+    pass

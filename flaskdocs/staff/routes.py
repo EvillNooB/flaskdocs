@@ -15,7 +15,14 @@ staff = Blueprint("staff", __name__)
 def add_staffmember():
     form = AddStaffForm()
     if form.validate_on_submit():
-        staff_member = Staff(first_name=form.first_name.data, second_name=form.second_name.data, email=form.email.data, phone=form.phone.data, group_id=form.group.data)
+        staff_member = Staff(first_name=form.first_name.data, 
+                             second_name=form.second_name.data,
+                             email=form.email.data,
+                             phone=form.phone.data,
+                             group_id=form.group.data,
+                             use_phone=form.use_phone.data,
+                             use_email=form.use_email.data
+                             )
         db.session.add(staff_member)
         db.session.commit()
         flash(f"Успешно", "success")
@@ -97,10 +104,12 @@ def edit_staff(member):
                 flash(error)
                 return redirect(request.referrer)
         staff_member.group_id = form.group.data
-        staff_member.first_name = form.first_name.data 
-        staff_member.second_name = form.second_name.data  
-        staff_member.email = form.email.data 
-        staff_member.phone = form.phone.data 
+        staff_member.first_name = form.first_name.data
+        staff_member.second_name = form.second_name.data
+        staff_member.email = form.email.data
+        staff_member.phone = form.phone.data
+        staff_member.use_email = form.use_email.data
+        staff_member.use_phone = form.use_phone.data
         db.session.commit()
         flash("Информация обновлена", "success")
         return redirect(url_for("staff.lookup_staff", member=member))
@@ -111,6 +120,8 @@ def edit_staff(member):
         form.second_name.data = staff_member.second_name
         form.email.data = staff_member.email
         form.phone.data = staff_member.phone.e164
+        form.use_email.data = staff_member.use_email
+        form.use_phone.data = staff_member.use_phone
     return render_template("edit_staff.html", form=form)
 
 @staff.route("/database/staff/<int:member>", methods=['GET'])
