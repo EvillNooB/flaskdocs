@@ -79,8 +79,7 @@ def checkDocuments(app:Flask):
                 send_email_to_group(staff=staff, document=document, daysleft=daysleft, group=group)
                 document.third = True
                 db.session.commit()
-
-        
+       
 @main.record
 def record(state):
     state.app.scheduler.add_job(checkDocuments, trigger='interval', seconds=30, misfire_grace_time=900, max_instances=1, args=[state.app])
