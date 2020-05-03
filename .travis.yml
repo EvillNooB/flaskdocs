@@ -2,28 +2,29 @@ language: python            # this works for Linux but is an error on macOS or W
 jobs:
   include:
     - name: "Python 3.8.0 on Windows"
-      os: windows           # Windows 10.0.17134 N/A Build 17134
-      language: shell       # 'language: python' is an error on Travis CI Windows
-      before_install:
-        - choco install python --version 3.8.0
-        - python -m pip install --upgrade pip
-      env: 
-            PATH=/c/Python38:/c/Python38/Scripts:$PATH
-            SECRET_KEY = "Secret Key"
-            SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
-            MAIL_SERVER = 'smtp.gmail.com'
-            MAIL_PORT = 587
-            MAIL_USE_TLS = True
-            MAIL_USERNAME = "test.test.com"
-            MAIL_PASSWORD = "password"
-            TWILIO_AUTH_SID = "SSID"
-            TWILIO_AUTH_TOKEN = "Token"
-            TWILIO_FROM = '+12345678910'
-        
+    - os: windows           # Windows 10.0.17134 N/A Build 17134
+    - language: shell       # 'language: python' is an error on Travis CI Windows
+    - before_install:
+         - choco install python --version 3.8.0
+         - python -m pip install --upgrade pip
+env: 
+global:
+    - PATH=/c/Python38:/c/Python38/Scripts:$PATH
+    - SECRET_KEY = "Secret Key"
+    - SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
+    - MAIL_SERVER = 'smtp.gmail.com'
+    - MAIL_PORT = 587
+    - MAIL_USE_TLS = True
+    - MAIL_USERNAME = "test.test.com"
+    - MAIL_PASSWORD = "password"
+    - TWILIO_AUTH_SID = "SSID"
+    - TWILIO_AUTH_TOKEN = "Token"
+    - TWILIO_FROM = '+12345678910' 
 install: 
-            pip3 install -r requirements.txt 
-            pip3 install --upgrade pip
-             # all three OSes agree about 'pip3'
-# 'python' points to Python 2.7 on macOS but points to Python 3.8 on Linux and Windows
-# 'python3' is a 'command not found' error on Windows but 'py' works on Windows only
+         - pip3 install -r requirements.txt 
+         - pip3 install --upgrade pip
+
 script: python3 run.py || python run.py
+
+notifications:
+    email: false
