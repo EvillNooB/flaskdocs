@@ -22,7 +22,6 @@ class User(db.Model, UserMixin):
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=True)
     use_email = db.Column(db.Boolean, unique=False, nullable=False, default=True)
     use_phone = db.Column(db.Boolean, unique=False, nullable=False, default=False)
-
     def __repr__(self):
         return f" Пользователь ('{self.username}', '{self.email}','{self.phone.international}')"
 

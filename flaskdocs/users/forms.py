@@ -41,6 +41,38 @@ class RegistrationForm(FlaskForm):
         except Exception as error:
             raise ValidationError(error)
 
+class GoogleRegistrationForm(FlaskForm):
+    username = StringField('Имя пользователя',
+                           validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    phone = StringField('Номер телефона',
+                           validators=[DataRequired()])
+    use_email = BooleanField('Email')
+    use_phone = BooleanField('SMS')
+    submit = SubmitField('Создать аккаунт')
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError('Такое имя пользователя уже занято')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('Такой email уже используется')
+        
+    def validate_phone(self, phone):
+        try:
+            input_number = phonenumbers.parse(phone.data)
+            if not (phonenumbers.is_valid_number(input_number)):
+                raise ValidationError('ErrorAfterParsing: Неправильный формат номера, убедитесь что он имеет вид +71234567890 (Без пробелов между цифрами)')
+            user = User.query.filter_by(phone=phone.data).first()
+            if user:
+                raise ValidationError('Пользователь с таким номером уже зарегистрирован')
+        except Exception as error:
+            raise ValidationError(error)
+
 class LoginForm(FlaskForm):
     login = StringField('Email или номер телефона указанный при регистрации',
                         validators=[DataRequired()])
