@@ -8,11 +8,15 @@ ENV PYTHONUNBUFFERED 1
 # copy project
 COPY ./app /app
 
+# install system dependencies
+RUN apt-get update && apt-get install -y netcat
+
 # install dependencies
 RUN pip install --upgrade pip
 RUN pip install -r /app/requirements.txt
 
-
+# run entrypoint.sh
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 # FROM python:3.8.2-slim-buster
 # LABEL version='0.0.1'
