@@ -15,8 +15,8 @@ RUN pip install -r /app/requirements.txt
 # System packages installation
 RUN echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list
 RUN wget https://nginx.org/keys/nginx_signing.key -O - | apt-key add -
-RUN apt-get update && apt-get install -y nginx \
-                                         supervisor \
+RUN apt-get update && apt-get install -y nginx=$NGINX_VERSION \
+                                         supervisor=$SUPERVISOR_VERSION \
 && rm -rf /var/lib/apt/lists/*
 
 # Nginx configuration
