@@ -1,4 +1,5 @@
 import os
+import psycopg2
 from oauthlib.oauth2 import WebApplicationClient
 from flask import Flask
 from flask_mail import Mail
@@ -7,7 +8,6 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from apscheduler.schedulers.background import BackgroundScheduler
 from flaskdocs.config import Config
-
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -25,7 +25,7 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     mail.init_app(app)
     twilio.init_app(app)
-    app.scheduler = BackgroundScheduler(daemon=True)
+    app.scheduler = BackgroundScheduler(daemon=True, timezone='Asia/Tashkent')
     from flaskdocs.users.routes import users
     from flaskdocs.staff.routes import staff
     from flaskdocs.main.routes import main
@@ -34,8 +34,6 @@ def create_app(config_class=Config):
     app.register_blueprint(staff)
     app.register_blueprint(main)
     app.register_blueprint(groups)
-    #app.scheduler.start()
+    app.scheduler.start()
 
-
-    
     return app

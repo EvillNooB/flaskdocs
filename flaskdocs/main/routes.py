@@ -13,6 +13,10 @@ from flaskdocs.main.utils import  (
 
 main = Blueprint("main", __name__)
 
+@main.record
+def record(state):
+    state.app.scheduler.add_job(checkDocuments, trigger='cron', hour=9, misfire_grace_time=900, max_instances=1, args=[state.app])
+
 @main.route("/", methods=['GET'])
 @main.route("/landing", methods=['GET'])
 def landing():
@@ -82,6 +86,3 @@ def checkDocuments(app: Flask):
                 document.third = True
                 db.session.commit()
     
-@main.record
-def record(state):
-    state.app.scheduler.add_job(checkDocuments, trigger='interval', minutes=1, misfire_grace_time=900, max_instances=1, args=[state.app])
