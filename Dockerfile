@@ -1,4 +1,4 @@
-FROM python:3.7.3
+FROM python:3.6.4
 LABEL version='0.0.1'
 
 # Software version management
