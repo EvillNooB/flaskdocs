@@ -6,3 +6,6 @@ __pycache__
 
 # ignore current database
 site.db
+
+config.py
+config.json
