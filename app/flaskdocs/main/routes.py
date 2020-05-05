@@ -1,5 +1,5 @@
 import arrow
-from flask import Blueprint, render_template, url_for, flash, redirect, current_app, Flask
+from flask import Blueprint, render_template, url_for, flash, redirect, current_app, make_response, Flask
 from flask_login import current_user, login_required
 from flaskdocs import  db
 from flaskdocs.main.forms import NotificationSettingsForm
@@ -13,9 +13,20 @@ from flaskdocs.main.utils import  (
 
 main = Blueprint("main", __name__)
 
+
 @main.record
 def record(state):
     state.app.scheduler.add_job(checkDocuments, trigger='cron', hour=9, misfire_grace_time=900, max_instances=1, args=[state.app])
+
+@main.route('/sw.js', methods=['GET'])
+def sw():
+    res = make_response(current_app.send_static_file('pwabuilder-sw.js'), 200)
+    res.headers["Content-Type"] = "application/javascript"
+    return res
+
+@main.route('/offline.html', methods=['GET'])
+def offlibe():
+    return "You're woffline"
 
 @main.route("/", methods=['GET'])
 @main.route("/landing", methods=['GET'])
