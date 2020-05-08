@@ -4,7 +4,7 @@
 	"name" : "DocHub",
 	"scope" : "/",
 	"display" : "minimal-ui",
-	"start_url" : "/",
+	"start_url" : "https://dochub.info/main",
 	"short_name" : "DocHub",
 	"theme_color" : "transparent",
 	"description" : "Document tracking platform",
@@ -15,5 +15,5 @@
 	"icons" : [],
 	"url" : "https://dochub.info",
 	"screenshots" : [],
-	"generated" : "true"
+	"generated" : ""
 }
