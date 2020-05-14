@@ -9,6 +9,9 @@ with open(abs_file_path) as config_file:
 
 class Config:
     SECRET_KEY = config.get('SECRET_KEY')
+    SQLALCHEMY_ENGINE_OPTIONS: {
+        "pool_pre_ping": True,
+    }
     SQLALCHEMY_DATABASE_URI = config.get('SQLALCHEMY_DATABASE_URI')
     MAIL_USERNAME = config.get('MAIL_USERNAME')
     MAIL_PASSWORD = config.get('MAIL_PASSWORD')
@@ -23,3 +26,4 @@ class Config:
     MAIL_PORT = config.get('MAIL_PORT')
     MAIL_USE_SSL = config.get('MAIL_USE_SSL')
     GOOGLE_DISCOVERY_URL = config.get('GOOGLE_DISCOVERY_URL')
+    
