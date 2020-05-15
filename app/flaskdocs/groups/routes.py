@@ -14,6 +14,7 @@ def add_group():
         group = Groups(name=form.name.data)
         db.session.add(group)
         db.session.commit()
+        db.session.close()
         flash(f"Успешно", "success")
         return redirect(url_for("groups.view_groups"))
     return render_template("add_group.html", form=form)
@@ -28,6 +29,7 @@ def delete_group(group_id):
             return redirect(request.referrer)
         db.session.delete(group)
         db.session.commit()
+        db.session.close()
         flash(f"Группа успешно удалена", "info")
     else:
         abort(404)

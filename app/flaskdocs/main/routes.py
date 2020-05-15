@@ -50,6 +50,7 @@ def notification_settings():
         db.session.add(defaults)
         db.session.commit()
         db_settings = Settings.query.first()
+        db.session.close()
     if form.validate_on_submit():
         array = [form.first.data, form.second.data, form.third.data]
         array.sort(reverse=True)
@@ -57,6 +58,7 @@ def notification_settings():
         db_settings.second = array[1]
         db_settings.third = array[2]
         db.session.commit()
+        db.session.close()
         flash(f"Сохранено", "success")
         return redirect(url_for("main.notification_settings"))
     form.first.data = db_settings.first
@@ -96,4 +98,5 @@ def checkDocuments(app: Flask):
                 commence_spam()
                 document.third = True
                 db.session.commit()
+        db.session.close()
     

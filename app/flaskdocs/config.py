@@ -10,7 +10,8 @@ with open(abs_file_path) as config_file:
 class Config:
     SECRET_KEY = config.get('SECRET_KEY')
     SQLALCHEMY_ENGINE_OPTIONS: {
-        "pool_pre_ping": True,
+        "SQLALCHEMY_POOL_PRE_PING": True,
+        "SQLALCHEMY_POOL_RECYCLE": 3600,
     }
     SQLALCHEMY_DATABASE_URI = config.get('SQLALCHEMY_DATABASE_URI')
     MAIL_USERNAME = config.get('MAIL_USERNAME')
