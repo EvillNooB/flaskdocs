@@ -1,11 +1,18 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import html5 as h5fields
 from wtforms.widgets import html5 as h5widgets
-from wtforms import SubmitField
+from wtforms import StringField, SubmitField, SelectField, BooleanField
+from wtforms.validators import DataRequired, Length, Email, ValidationError
+import arrow
 
-class NotificationSettingsForm(FlaskForm):
-    first = h5fields.IntegerField("Первое уведомление когда остается дней", widget=h5widgets.NumberInput(min=1, step=1))
-    second = h5fields.IntegerField('Второе уведомление когда остается дней', widget=h5widgets.NumberInput(min=1, step=1))
-    third = h5fields.IntegerField('Третье уведомление когда остается дней',
-                                  widget=h5widgets.NumberInput(min=1, step=1))
-    submit = SubmitField('Сохранить')
+class AddProductForm(FlaskForm):
+    product_name = StringField("Наименование", validators=[DataRequired()])
+    vendor = StringField("Производитель", validators=[DataRequired()])
+    manufactured_date = StringField("Произведено в (Формат: ДД.ММ.ГГГГ)", validators=[DataRequired()])
+    submit = SubmitField('Добавить')
+
+    def validate_date(self, manufactured_date):
+        try:
+            date = arrow.get(manufactured_date.data, 'DD.MM.YYYY')
+        except Exception as error:
+            raise ValidationError(error)    

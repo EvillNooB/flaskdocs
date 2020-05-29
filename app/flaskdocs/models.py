@@ -66,4 +66,14 @@ class Settings(db.Model):
     first = db.Column(db.Integer, unique=False, nullable=False, default=20)
     second = db.Column(db.Integer, unique=False, nullable=False, default=15)
     third = db.Column(db.Integer, unique=False, nullable=False, default=10)
+
+class Products(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Unicode(32), unique=True, nullable=False)
+    product_name = db.Column(db.Unicode(100), unique=False, nullable=False)
+    vendor = db.Column(db.Unicode(100), unique=False, nullable=False)
+    manufactured_date = db.Column(ArrowType(), nullable=False, unique=False)
+    already_checked = db.Column(db.Boolean, unique=False, nullable=False, default=False)
+    first_checked = db.Column(ArrowType(), nullable=True, unique=False)
+    
  

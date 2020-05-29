@@ -30,6 +30,8 @@ def create_app(config_class=Config):
     from flaskdocs.staff.routes import staff
     from flaskdocs.main.routes import main
     from flaskdocs.groups.routes import groups
+    from flaskdocs.experiment.routes import experiment
+    app.register_blueprint(experiment)
     app.register_blueprint(users)
     app.register_blueprint(staff)
     app.register_blueprint(main)

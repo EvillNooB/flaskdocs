@@ -1,0 +1,103 @@
+{% extends "experiment.layout.html" %}
+{% block content %}
+
+<h1 class="ml-4">  Количество {{products.total}}</h1> 
+
+
+
+
+<div class="test123">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th scope="col">Уникальная метка</th>
+                <th scope="col">Продукт</th>
+                <th scope="col">Производитель</th>
+                <th scope="col">Произведён</th>
+                <th scope="col">Дата первой проверки</th>
+                <th scope="col">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+             {% for item in products.items %}
+             <tr>
+
+              <td>
+                {{ item.product_id}}
+              </td>
+
+              <td>
+                {{ item.product_name}}
+              </td>
+
+              <td>
+                {{ item.vendor}}
+              </td>
+
+              <td>
+                {{ item.manufactured_date.format("DD.MM.YYYY")}}
+              </td>
+              
+              <td>
+                {% if item.already_checked %}
+                {{ item.first_checked.format("DD.MM.YYYY H:m:s")}} UTC
+                {% else %}
+                -
+                {% endif %}
+              </td>
+              
+              <td>
+               <a href="{{  url_for('experiment.get_qr', id1=item.product_id)  }}"> Сгенерировать QR </a>
+              </td>
+
+
+
+
+
+             </tr>
+            {% endfor %}
+
+        </tbody>
+        <tfoot>
+            <tr>
+               
+              <th scope="col">Уникальная метка</th>
+              <th scope="col">Продукт</th>
+              <th scope="col">Производитель</th>
+              <th scope="col">Произведён</th>
+              <th scope="col">Дата первой проверки</th>
+              <th scope="col">Действия</th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+    {% for page_num in products.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+      {% if page_num==products.page %}
+      <a class="btn btn-info mb-4" href="{{ url_for('experiment.products_list', page= page_num, per_page=per_page) }}">{{page_num}}</a>
+      {% else %}
+      <a class="btn btn-outline-info mb-4" href="{{ url_for('experiment.products_list', page= page_num, per_page=per_page) }}"> {{page_num}}</a>
+      {% endif %}
+    {% else %}
+    ...
+    {% endif %}
+    {% endfor %}
+  </div>
+    <script>
+
+        $(document).ready(function() {
+            $('#example').DataTable({
+
+                "paging":   false,
+                "bInfo" : false,
+                "order": []
+
+            });
+        } );
+
+
+
+        </script>
+{% endblock content %}

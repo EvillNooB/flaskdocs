@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    
+    <link rel='manifest' href="{{ url_for('static', filename='manifest.json')}}">
+   
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css')}}">
+
+
+</head>
+<body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<div class="test123">
+  
+  
+
+  <div class="row-sm-auto">
+    Информация о товаре:
+      <p class="ml-4">Наименование: {{product.product_name}}</p>
+      <p class="ml-4">Производитель: {{product.vendor}}</p>
+      <p class="ml-4">Дата производства: {{product.manufactured_date.format("DD.MM.YYYY")}}</p>
+      {% if product.already_checked and  not firstcheck %}
+      <p class="ml-4" style="color:red">Вы не первый кто проверил оригинальность, первая проверка была произведена в {{product.first_checked.format("DD.MM.YYYY H:m:s")}}UTC</p>
+      {% else %}
+      <p class="ml-4" style="color:green">Вы первый кто проверил оригинальность </p>
+      {% endif %}
+</div>
+
+</body>
+</html>

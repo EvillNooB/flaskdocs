@@ -1,0 +1,71 @@
+{% extends "experiment.layout.html" %}
+{% block content %}
+
+
+    <div class="content-section">
+      <form method="POST" action="">
+          {{ form.hidden_tag() }}
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Добавить метку</legend>
+
+              <div class="form-group">
+                  {{ form.product_name.label(class="form-control-label") }}
+
+                  {% if form.product_name.errors %}
+                      {{ form.product_name(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                          {% for error in form.product_name.errors %}
+                              <span>{{ error }}</span>
+                          {% endfor %}
+                      </div>
+                  {% else %}
+                      {{ form.product_name(class="form-control form-control-lg") }}
+                  {% endif %}
+              </div>
+
+              <div class="form-group">
+                {{ form.vendor.label(class="form-control-label") }}
+
+                {% if form.vendor.errors %}
+                    {{ form.vendor(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.vendor.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.vendor(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.manufactured_date.label(class="form-control-label") }}
+
+                {% if form.manufactured_date.errors %}
+                    {{ form.manufactured_date(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.manufactured_date.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.manufactured_date(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+
+            
+          </fieldset>
+          <div class="form-group">
+              {{ form.submit(class="btn btn-outline-info") }}
+          </div>
+      </form>
+  </div>
+
+
+
+
+
+
+
+{% endblock content %}
