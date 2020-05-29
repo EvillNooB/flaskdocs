@@ -77,7 +77,7 @@ def register_with_google_callback():
             flash(f"Assigned to a default group - {default_group.name}", "info")
             db.session.add(user)
             db.session.commit()
-            db.session.close()
+            # db.session.close()
             flash(f"Учетная запись создана", "success")
             return redirect(url_for("users.login"))
         return render_template("register_google.html", title="Регистрация", sidebar=False, form=form)
@@ -157,7 +157,7 @@ def register():
         flash(f"Assigned to a default group - {default_group.name}", "info")
         db.session.add(user)
         db.session.commit()
-        db.session.close()
+        # db.session.close()
         flash(f"Учетная запись создана", "success")
         return redirect(url_for("users.login"))
     form.use_email.data = True
@@ -212,7 +212,7 @@ def account_settings():
         current_user.use_email = form.use_email.data    
         current_user.use_phone = form.use_phone.data
         db.session.commit()
-        db.session.close()
+        # db.session.close()
         flash("Информация обновлена", "success")
         return redirect(url_for("users.account_settings"))
     elif request.method == "GET":
