@@ -10,14 +10,9 @@ with open(abs_file_path) as config_file:
 class Config:
     SECRET_KEY = config.get('SECRET_KEY')
     SQLALCHEMY_ENGINE_OPTIONS: {
-        'connect_args': {
-        'connect_timeout': 10
-        },
         "POOL_PRE_PING": True,
         "POOL_RECYCLE": 250,
-        "POOL_TIMEOUT": 300,
     }
-    SQLALCHEMY_POOL_TIMEOUT = 300
     SQLALCHEMY_POOL_PRE_PING = True
     SQLALCHEMY_POOL_RECYCLE = 250
     SQLALCHEMY_DATABASE_URI = config.get('SQLALCHEMY_DATABASE_URI')

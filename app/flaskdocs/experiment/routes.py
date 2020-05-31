@@ -21,7 +21,7 @@ def create_product():
         product.product_id = uuid.uuid1().hex
         db.session.add(product)
         db.session.commit()
-        # db.session.close()
+        db.session.close()
         flash(f"Метка сохранена с id - {product.product_id}", "success")
         return redirect(url_for("experiment.products_list"))
     return render_template("experiment.add_product.html", form=form)
@@ -43,6 +43,7 @@ def check_product(id1):
         product.first_checked = arrow.utcnow()
         product.already_checked = True
         db.session.commit()
+        db.session.close()
         firstcheck = True
     return render_template("experiment.product_check.html", product=product, firstcheck=firstcheck)
 

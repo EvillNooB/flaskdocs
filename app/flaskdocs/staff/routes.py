@@ -25,7 +25,7 @@ def add_staffmember():
                              )
         db.session.add(staff_member)
         db.session.commit()
-        # db.session.close()
+        db.session.close()
         flash(f"Успешно", "success")
         return redirect(url_for("staff.lookup_staff", member=staff_member.id))
     return render_template("add_staff.html", form=form)
@@ -38,7 +38,7 @@ def add_doc(member):
         new_doc = Documents(name=form.name.data, expiration_date=arrow.get(form.date.data, 'DD.MM.YYYY'), owner_id=member)
         db.session.add(new_doc)
         db.session.commit()
-        # db.session.close()
+        db.session.close()
         flash(f"Документ успешно добавлен", "success")
         return redirect(url_for("staff.lookup_staff", member=member))
     staff_member = Staff.query.get(member)
@@ -61,7 +61,7 @@ def delete_staff(staff_id):
     else:
         db.session.delete(staff_member)
         db.session.commit()
-        # db.session.close()
+        db.session.close()
         flash(f"Успешно удалено", "info")
         return redirect(url_for('staff.show_staff'))
 
@@ -72,7 +72,7 @@ def delete_document(doc_id):
     if document:
         db.session.delete(document)
         db.session.commit()
-        # db.session.close()
+        db.session.close()
         flash(f"Документ успешно удалён", "info")
     else:
         abort(404)
@@ -115,7 +115,7 @@ def edit_staff(member):
         staff_member.use_email = form.use_email.data
         staff_member.use_phone = form.use_phone.data
         db.session.commit()
-        # db.session.close()
+        db.session.close()
         flash("Информация обновлена", "success")
         return redirect(url_for("staff.lookup_staff", member=member))
     elif request.method == "GET":
