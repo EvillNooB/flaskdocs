@@ -31,6 +31,7 @@ def products_list():
     page = request.args.get("page", 1, type=int)
     per_page = request.args.get("per_page", 5, type=int)
     products = Products.query.order_by(Products.id.asc()).paginate(per_page=per_page, page=page)
+    db.session.close()
     return render_template("experiment.products_list.html", products=products, per_page=per_page)
 
 @experiment.route("/products/check/<string:id1>", methods=['POST', 'GET'])
@@ -43,8 +44,8 @@ def check_product(id1):
         product.first_checked = arrow.utcnow()
         product.already_checked = True
         db.session.commit()
-        db.session.close()
         firstcheck = True
+    db.session.close()
     return render_template("experiment.product_check.html", product=product, firstcheck=firstcheck)
 
 @experiment.route("/products/qr/<string:id1>", methods=['POST', 'GET'])

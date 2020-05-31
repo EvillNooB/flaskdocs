@@ -31,7 +31,7 @@ class Staff(db.Model):
     first_name = db.Column(db.Unicode(100), unique=False, nullable=False)
     email = db.Column(EmailType(), unique=True, nullable=False)
     phone = db.Column(PhoneNumberType(), unique=True, nullable=False)
-    documents = db.relationship('Documents', backref='owner', lazy=True)
+    documents = db.relationship('Documents', backref='owner')
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=True)
     use_email = db.Column(db.Boolean, unique=False, nullable=False, default=True)
     use_phone = db.Column(db.Boolean, unique=False, nullable=False, default=False)
@@ -55,8 +55,8 @@ class Documents(db.Model):
 class Groups(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode(40), unique=True, nullable=False)
-    user_count = db.relationship('User', backref='group', lazy=True)
-    staff_count = db.relationship('Staff', backref='group', lazy=True)
+    user_count = db.relationship('User', backref='group')
+    staff_count = db.relationship('Staff', backref='group'e)
 
     def __repr__(self):
         return f"Группа - '{self.name}'"
