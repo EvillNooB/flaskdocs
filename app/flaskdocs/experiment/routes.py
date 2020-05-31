@@ -21,7 +21,7 @@ def create_product():
         product.product_id = uuid.uuid1().hex
         db.session.add(product)
         db.session.commit()
-        db.session.close()
+        # db.session.close()
         flash(f"Метка сохранена с id - {product.product_id}", "success")
         return redirect(url_for("experiment.products_list"))
     return render_template("experiment.add_product.html", form=form)
@@ -31,7 +31,7 @@ def products_list():
     page = request.args.get("page", 1, type=int)
     per_page = request.args.get("per_page", 5, type=int)
     products = Products.query.order_by(Products.id.asc()).paginate(per_page=per_page, page=page)
-    db.session.close()
+    # db.session.close()
     return render_template("experiment.products_list.html", products=products, per_page=per_page)
 
 @experiment.route("/products/check/<string:id1>", methods=['POST', 'GET'])
@@ -45,7 +45,7 @@ def check_product(id1):
         product.already_checked = True
         db.session.commit()
         firstcheck = True
-    db.session.close()
+    # db.session.close()
     return render_template("experiment.product_check.html", product=product, firstcheck=firstcheck)
 
 @experiment.route("/products/qr/<string:id1>", methods=['POST', 'GET'])
