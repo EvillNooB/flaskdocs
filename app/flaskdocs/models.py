@@ -56,7 +56,7 @@ class Groups(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode(40), unique=True, nullable=False)
     user_count = db.relationship('User', backref='group')
-    staff_count = db.relationship('Staff', backref='group'e)
+    staff_count = db.relationship('Staff', backref='group')
 
     def __repr__(self):
         return f"Группа - '{self.name}'"
